@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdio_ext.h>
 
 // Desafio Super Trunfo - Países
 // Tema 1 - Cadastro das Cartas
@@ -33,6 +32,9 @@ int main() {
     // Sugestão: Utilize a função scanf para capturar as entradas do usuário para cada atributo.
     // Solicite ao usuário que insira as informações de cada cidade, como o código, nome, população, área, etc.
     
+    //Comecar o programa limpando a tela do terminal
+    system("clear");
+
     //Declaracao das Variaveis
     int Populacao_A1, Populacao_B1, NumeroPonto_A1, NumeroPonto_B1;
     float Area_A1, Area_B1, Pib_A1, Pib_B1;
@@ -65,8 +67,6 @@ int main() {
     scanf("%d", &NumeroPonto_B1);
     system("clear");
     
-    //limpar buffer
-    __fpurge(stdin); // pra usar tive que adicionar a biblioteca #include <stdio_ext.h>
     
     // Exibição dos Dados das Cartas:
     // Sugestão: Utilize a função printf para exibir as informações das cartas cadastradas de forma clara e organizada.
@@ -78,9 +78,8 @@ int main() {
     printf("Área| \t%f m²\n------------------------------------------\n", Area_A1);
     printf("PIB| \t%f per capita\n------------------------------------------\n", Pib_A1);
     printf("Pontos Turisticos| \t%d pontos\n------------------------------------------\n\n", NumeroPonto_A1);
-    printf("\033[32mPressione Enter para continuar...\033[0m"); //usei tabela ANSI para mudar as cor de texto
-    getchar(); // Aguarda o usuário pressionar Enter
-    system("clear");
+    printf("\n\033[32m##########################################\033[0m\n\n\n"); //usei tabela ANSI para mudar as cor de texto
+        
     //Exibicao Niteroi-RJ
     printf("------------------------------------------\n|B1|    \tNiteroi-RJ              |\n------------------------------------------\n");
     printf("Populacao| \t%d habitantes\n------------------------------------------\n", Populacao_B1);
