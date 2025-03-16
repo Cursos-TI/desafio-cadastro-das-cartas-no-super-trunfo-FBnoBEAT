@@ -6,6 +6,68 @@
 // Este código inicial serve como base para o desenvolvimento do sistema de cadastro de cartas de cidades.
 // Siga os comentários para implementar cada parte do desafio.
 
+ //Definir Structs para as cartas
+ //Seria como criar uma estrutura de variaveis para armazenar as informações de cada carta
+ //Sem ter a necessidade de criar uma variavel para cada informação
+ //Assim, podemos criar uma variavel do tipo struct Carta e armazenar todas as informações de uma carta
+ // Seria como ser "Estrutura de Cartas quero os dados para Carta 1, Carta 2, Carta 3, etc"
+ struct Carta {
+    char estado;
+    char codigo[4];
+    char nomeDaCidade[50];
+    int populacao;
+    float area;
+    float pib;
+    int pontosTuristicos;
+    float densidadePopulacional;
+    float pibPerCapita;
+};
+
+//Funcao sem retorno que recebe um ponteiro para uma struct Carta
+//Essa funcao ira ler os dados de uma carta
+//O ponteiro é utilizado para que a função possa alterar os valores da struct
+//Caso não fosse utilizado o ponteiro, a função iria criar uma copia da struct e alterar os valores da copia
+//Assim, a struct original não seria alterada
+//O ponteiro faz com que a função altere diretamente a struct original
+void lerCartas(struct Carta *ptr){
+    fpurge(stdin);
+    printf("Digite o estado da cidade: ");
+    scanf("%c", &ptr->estado);
+    printf("Digite o código da cidade: ");      
+    scanf("%s", ptr->codigo);
+    printf("Digite o nome da cidade: ");
+    scanf("%s", ptr->nomeDaCidade);
+    fpurge(stdin);
+    printf("Digite a população da cidade: ");
+    scanf("%d", &ptr->populacao);
+    printf("Digite a área da cidade: ");
+    scanf("%f", &ptr->area);
+    printf("Digite o PIB da cidade: ");
+    scanf("%f", &ptr->pib);
+    printf("Digite os pontos turisticos da cidade: ");
+    scanf("%d", &ptr->pontosTuristicos);
+}
+
+
+//Funcao sem retorno que exibe os dados de cada carta
+//onde no parametros da funcao, é passado uma struct Carta
+//Essa função irá exibir os dados de uma carta
+//por exemplo o x espera que seja passado uma variavel quando for chamar a funcao, exemplo Carta1 chamara o struct Carta1
+//Assim, a função irá exibir os dados da struct Carta1
+void exibirCartas(struct Carta x){
+    printf("Estado: %c\n", x.estado);
+    printf("Codigo: %s\n", x.codigo);
+    printf("Nome da Cidade: %s\n", x.nomeDaCidade);
+    printf("Populacao: %d\n", x.populacao);
+    printf("Area: %.2f km²\n", x.area);
+    printf("PIB: %.2f bilhões de reais\n", x.pib);
+    printf("Pontos Turisticos: %d\n", x.pontosTuristicos);
+    x.densidadePopulacional = (float)x.populacao / x.area;
+    x.pibPerCapita = (x.pib*1e9) / (float)x.populacao; //pesquisei e usei 1e9 para converter reais para bilhões exemplo 699.28 reais fica 699.280.000.000 reais
+    printf("Densidade Populacional: %.2f hab/km²\n", x.densidadePopulacional);
+    printf("PIB per Capita: %.2f reais/habitante\n", x.pibPerCapita);
+}
+
 
 int main() {
     // Cadastro das Cartas:
@@ -14,108 +76,20 @@ int main() {
     
     //Comecar o programa limpando a tela do terminal
     system("clear");
+    struct Carta carta1, carta2;
 
-    //Definir variaveis
-    char estadoCarta1;
-    char codigoCarta1[4];
-    char nomeDaCidadeCarta1[50];
-    int populacaoCarta1;
-    float areaCarta1;
-    float pibCarta1;
-    int pontosTuristicosCarta1;
+    //Chamar a função lerCartas para ler os dados de cada carta
+    lerCartas(&carta1);
+    system("clear");
+    lerCartas(&carta2);
+    system("clear");
 
-    fpurge(stdin); //limpa buffer do teclado
-
-    //Pedir ao usuario que insira as informacoes da carta 1
-    printf("Insira o estado da carta 1: ");
-    scanf("%c", &estadoCarta1);
-    system("clear"); //limpar a tela do terminal
-    printf("Insira o codigo da carta 1: ");
-    scanf("%3s", codigoCarta1);
-
-    system("clear"); //limpar a tela do terminal
-    printf("Insira o nome da Cidade da carta 1: ");
-    scanf("%s", nomeDaCidadeCarta1);
-    system("clear"); //limpar a tela do terminal
-
-    fpurge(stdin); //limpa buffer do teclado
-
-    printf("Insira a Populacao da cidade da carta 1: ");
-    scanf("%d", &populacaoCarta1);    
-    system("clear"); //limpar a tela do terminal
-    printf("Insira a Area da cidade da carta 1: ");
-    scanf("%f", &areaCarta1);
-    system("clear"); //limpar a tela do terminal
-    printf("Insira o PIB da cidade da carta 1: ");
-    scanf("%f", &pibCarta1);
-    system("clear"); //limpar a tela do terminal
-    printf("Quantos Pontos Turisticos tem a cidade da carta 1: ");
-    scanf("%d", &pontosTuristicosCarta1);
-    system("clear"); //limpar a tela do terminal
-    //Repetir o processo para a carta 2 ------------
-
-    // Definir variáveis para a carta 2
-    char estadoCarta2;
-    char codigoCarta2[4];
-    char nomeDaCidadeCarta2[50];
-    int populacaoCarta2;
-    float areaCarta2;
-    float pibCarta2;
-    int pontosTuristicosCarta2;
-
-    fpurge(stdin); // limpa buffer do teclado
-
-    // Pedir ao usuário que insira as informações da carta 2
-    printf("Insira o estado da carta 2: ");
-    scanf("%c", &estadoCarta2);
-    system("clear"); // limpar a tela do terminal
-
-    printf("Insira o código da carta 2: ");
-    scanf("%3s", codigoCarta2);
-    system("clear"); // limpar a tela do terminal
-
-    printf("Insira o nome da Cidade da carta 2: ");
-    scanf("%s", nomeDaCidadeCarta2);
-    system("clear"); // limpar a tela do terminal
-
-    fpurge(stdin); // limpa buffer do teclado
-
-    printf("Insira a População da cidade da carta 2: ");
-    scanf("%d", &populacaoCarta2);
-    system("clear"); // limpar a tela do terminal
-
-    printf("Insira a Área da cidade da carta 2: ");
-    scanf("%f", &areaCarta2);
-    system("clear"); // limpar a tela do terminal
-
-    printf("Insira o PIB da cidade da carta 2: ");
-    scanf("%f", &pibCarta2);
-    system("clear"); // limpar a tela do terminal
-
-    printf("Quantos Pontos Turísticos tem a cidade da carta 2: ");
-    scanf("%d", &pontosTuristicosCarta2);
-    system("clear"); // limpar a tela do terminal
-
-     //Imprimir as informacoes da carta 1
-     printf("Carta 1\n");
-     printf("Estado: %c \n", estadoCarta1);
-     printf("Codigo: %s\n", codigoCarta1);
-     printf("Nome da Cidade: %s\n", nomeDaCidadeCarta1);
-     printf("Populacao: %d\n", populacaoCarta1);
-     printf("Area: %.2f km^2\n", areaCarta1);
-     printf("PIB: %.2f bilhoes de reais\n", pibCarta1);
-     printf("Numero de Pontos Turisticos: %d\n\n\n", pontosTuristicosCarta1);
-
-    // Imprimir as informações da carta 2
-    printf("Carta 2\n");
-    printf("Estado: %c \n", estadoCarta2);
-    printf("Código: %s\n", codigoCarta2);
-    printf("Nome da Cidade: %s\n", nomeDaCidadeCarta2);
-    printf("População: %d\n", populacaoCarta2);
-    printf("Área: %.2f km^2\n", areaCarta2);
-    printf("PIB: %.2f bilhões de reais\n", pibCarta2);
-    printf("Número de Pontos Turísticos: %d\n", pontosTuristicosCarta2);
-
+    // Exibir as Cartas:
+    exibirCartas(carta1);
+    printf("\n\n\n");
+    exibirCartas(carta2);
     return 0;
 }
 
+//NA COMPARACAO USAR UMA FUNCAO DO TIPO BOOL PARA VERIFICAR QUAL CARTA E MAIOR
+//NAO ESQUECER DE FAZER A COMPARACAO DE CADA ATRIBUTO DE CADA CARTA
