@@ -15,12 +15,13 @@
     char estado;
     char codigo[4];
     char nomeDaCidade[50];
-    int populacao;
+    unsigned long int populacao;
     float area;
     float pib;
     int pontosTuristicos;
     float densidadePopulacional;
     float pibPerCapita;
+    double superPoder;  //usei double porque o valor ficou grande pois converti a densidade invertida para ficar melhor de visualizar, pois retornava um nuemro 0,00000 e queria que ficasse 123,45678 por exemplo
 };
 
 //Funcao sem retorno que recebe um ponteiro para uma struct Carta
@@ -39,7 +40,7 @@ void lerCartas(struct Carta *ptr){
     scanf("%s", ptr->nomeDaCidade);
     fpurge(stdin);
     printf("Digite a população da cidade: ");
-    scanf("%d", &ptr->populacao);
+    scanf("%lu", &ptr->populacao);
     printf("Digite a área da cidade: ");
     scanf("%f", &ptr->area);
     printf("Digite o PIB da cidade: ");
@@ -58,17 +59,34 @@ void exibirCartas(struct Carta x){
     printf("Estado: %c\n", x.estado);
     printf("Codigo: %s\n", x.codigo);
     printf("Nome da Cidade: %s\n", x.nomeDaCidade);
-    printf("Populacao: %d\n", x.populacao);
+    printf("Populacao: %lu\n", x.populacao);
     printf("Area: %.2f km²\n", x.area);
     printf("PIB: %.2f bilhões de reais\n", x.pib);
     printf("Pontos Turisticos: %d\n", x.pontosTuristicos);
     x.densidadePopulacional = (float)x.populacao / x.area;
-    x.pibPerCapita = (x.pib*1e9) / (float)x.populacao; //pesquisei e usei 1e9 para converter reais para bilhões exemplo 699.28 reais fica 699.280.000.000 reais
+    x.pibPerCapita = (x.pib*1e9) / (float)x.populacao; //pesquisei e usei 1e9(mesma coisa que multiplicar por 1.000.000.000) para converter reais para bilhões exemplo 699.28 reais fica 699.280.000.000 reais
+    x.superPoder = (float)x.populacao + x.area + x.pib + (float)x.pontosTuristicos + x.pibPerCapita + (1 / x.densidadePopulacional * 1e6);
     printf("Densidade Populacional: %.2f hab/km²\n", x.densidadePopulacional);
     printf("PIB per Capita: %.2f reais/habitante\n", x.pibPerCapita);
+    printf("Super Poder: %.2lf\n", x.superPoder);
 }
 
+void compararCartas(struct Carta x, struct Carta y){
+/*
+(condiacao) ? valor_se_verdadeiro : valor_se_falso
+A expressão acima é um operador ternário, que é uma forma simplificada de escrever um if-else.
+Se a condição for verdadeira, o valor_se_verdadeiro é retornado, caso contrário, o valor_se_falso é retornado.
+*/
 
+    printf("\n\nComparando as cartas:\n");
+    printf("Populacao: %s\n", (x.populacao > y.populacao) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)");
+    printf("Area: %s\n", (x.area > y.area) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)");
+    printf("PIB: %s\n", (x.pib > y.pib) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)");
+    printf("Pontos Turisticos: %s\n", (x.pontosTuristicos > y.pontosTuristicos) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)");
+    printf("Densidade Populacional: %s\n", (x.densidadePopulacional < y.densidadePopulacional) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)");
+    printf("PIB per Capita: %s\n", (x.pibPerCapita > y.pibPerCapita) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)");
+    printf("Super Poder: %s\n", (x.superPoder > y.superPoder) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)");
+}
 int main() {
     // Cadastro das Cartas:
     // Sugestão: Utilize a função scanf para capturar as entradas do usuário para cada atributo.
@@ -88,8 +106,33 @@ int main() {
     exibirCartas(carta1);
     printf("\n\n\n");
     exibirCartas(carta2);
+
+    //Comparar as cartas
+    compararCartas(carta1, carta2);
+/*
+Usei structs para fazer o cadastro das cartas, assim nao sendo necessario declarar varias variaveis para a mesma finalidade
+Depois pensei em usar funcao void para separar cada parte do meu codigo, facilitando e nao tendo que reescrever para a segunda carta
+assim tendo mais praticidade e organizacao. Porem tive que pesquisar sobre ponteiros, pois meu conhecimento nao era tao avancado para
+assimilar como implementar no meu codigo, pesquisei e aprendi como usar, explicando nas minhas palavras para reforcar meu aprendizado
+
+    criei a void lerCartas, e passei no parametro dela a struct Carta usando um ponteiro *ptr para que a funcao possa alterar os valores da struct
+    entao crio o struct na main por exemplo struct Cartas carta1, e chamo a funcao lerCartas(&carta1) passando o endereco da struct
+    assim a funcao ira alterar diretamente a struct original, sem precisar criar uma copia dela
+    assim nao sendo necessario declarar varias variaveis para a mesma finalidade
+
+    criei a void exibirCartas, e passei no parametro dela a struct Carta x para que a funcao possa exibir os valores da struct
+    entao quando chamo a funcao exibirCartas(carta1) ela ira exibir os valores da struct carta1 ---- pois o x esperado no parametro assume o valor de carta1
+    passado na funcao 
+
+    criei a void compararCartas, e passei no parametro dela a struct Carta x e struct Carta y para que a funcao possa comparar os valores das structs
+    entao quando chamo a funcao compararCartas(carta1, carta2) ela ira comparar os valores das structs carta1 e carta2
+    e exibir qual carta venceu em cada comparacao
+
+    usei o operador ternario para exibir qual carta venceu em cada comparacao
+    por exemplo (x.populacao > y.populacao) ? "Carta 1 venceu (1)" : "Carta 2 venceu (0)" 
+    reforcei meu aprendizado pois depois que aprendi If/else nem lembrava mais que poderia simplificar desse jeito
+*/
+
+
     return 0;
 }
-
-//NA COMPARACAO USAR UMA FUNCAO DO TIPO BOOL PARA VERIFICAR QUAL CARTA E MAIOR
-//NAO ESQUECER DE FAZER A COMPARACAO DE CADA ATRIBUTO DE CADA CARTA
